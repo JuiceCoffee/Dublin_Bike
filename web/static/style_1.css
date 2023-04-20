@@ -1,0 +1,64 @@
+/* Set the size of the div 
+element that contains the map 
+*/
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+html,
+body {
+    height: 100%;
+    margin:0;
+    padding:0;
+}
+#inputDate {
+    margin-right: 25px;
+  }
+
+  #heatmap-control {
+    background-color: orange;
+    border: 3px solid yellowgreen;
+    border-radius: 9px;
+    padding: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 10px;
+    color: white;
+  }
+
+  .custom-search-box {
+    width: 300px; /* 调整搜索框宽度 */
+    height: 40px; /* 调整搜索框高度 */
+    border: 2px solid #ccc; /* 调整边框宽度和颜色 */
+    border-radius: 10px; /* 设置圆角 */
+    padding: 0 12px; /* 调整内边距，使文本距离边缘有一定距离 */
+    font-size: 16px; /* 调整字体大小 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+  }
+  
+  /* 添加这个样式以设置输入框获得焦点时的样式 */
+  .custom-search-box:focus {
+    outline: none; /* 移除默认的轮廓线 */
+    border-color: #66afe9; /* 调整边框颜色 */
+  }
+
+  .custom-search-box2 {
+    width: 300px; /* 调整搜索框宽度 */
+    height: 40px; /* 调整搜索框高度 */
+    border: 2px solid #ccc; /* 调整边框宽度和颜色 */
+    border-radius: 10px; /* 设置圆角 */
+    padding: 0 12px; /* 调整内边距，使文本距离边缘有一定距离 */
+    font-size: 16px; /* 调整字体大小 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+  }
+  
+  /* 添加这个样式以设置输入框获得焦点时的样式 */
+  .custom-search-box2:focus {
+    outline: none; /* 移除默认的轮廓线 */
+    border-color: #66afe9; /* 调整边框颜色 */
+  }
+
+
+  

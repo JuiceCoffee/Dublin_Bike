@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+
+<html data-wf-domain="yes-wondrous-site-4df252.webflow.io" data-wf-page="63fd5beab41ee743046587db"
+    data-wf-site="63fd5beab41ee7de056587d7" data-wf-status="1">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <style>
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navlink:first-child {
+            margin-bottom: 50px;
+        }
+        .bike-bg {
+            text-align: center;
+        }
+        #bike-bg-img {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            width: 80%
+        }
+
+        .blackBar {
+            background-color: black;
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+        }
+
+        .leftText {
+            color: white;
+            margin-right: auto;
+            margin-left: 10px;
+        }
+
+        .weatherInfo {
+            left:-100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width:  80%;
+            margin: 0 auto;
+        }
+
+        #temperature, #description {
+            color: white;
+            margin: 0 10px;
+        }
+
+        #about img {
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+    </style>
+    <link
+        href="styles.css"
+        rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'style_1.css') }}" />
+    <script type="module" src="{{ url_for('static', filename = 'index_1.js') }}"></script>
+    <style>
+        @media (min-width:992px) {
+            html.w-mod-js:not(.w-mod-ix) [data-w-id="e550241e-9108-0a6f-a053-02038570edf9"] {
+                width: 0.75rem;
+                height: 0.75rem;
+            }
+
+            html.w-mod-js:not(.w-mod-ix) [data-w-id="8bf6c0db-ed9a-e18f-472f-cf368ac96018"] {
+                display: none;
+                opacity: 0;
+            }
+
+            html.w-mod-js:not(.w-mod-ix) [data-w-id="384e564d-9d7d-3daf-48bf-9e4cf7ecd5ee"] {
+                display: none;
+                -webkit-transform: translate3d(0, -12rem, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+                -moz-transform: translate3d(0, -12rem, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+                -ms-transform: translate3d(0, -12rem, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+                transform: translate3d(0, -12rem, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+            }
+
+            html.w-mod-js:not(.w-mod-ix) [data-w-id="e4b6ee28-d38f-10df-bd83-9f292a2f43c5"] {
+                display: none;
+                opacity: 0;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous" />
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+    <script type="text/javascript">WebFont.load({ google: { families: ["Inter:regular,700"] } });</script>
+    <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" type="text/javascript"></script><![endif]-->
+    <script
+        type="text/javascript">!function (o, c) { var n = c.documentElement, t = " w-mod-"; n.className += t + "js", ("ontouchstart" in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch") }(window, document);</script>
+    <link href="https://uploads-ssl.webflow.com/631107090132c01a53cc94c0/6318ee0fe1bc93c3279bf47b_favicon.jpg"
+        rel="shortcut icon" type="image/x-icon" />
+    <link href="https://uploads-ssl.webflow.com/631107090132c01a53cc94c0/6318ee1409b5a98c85447f81_webclip.jpg"
+        rel="apple-touch-icon" /><!-- [Attributes by Finsweet] Copy to clipboard -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-copyclip@1/copyclip.js"></script>
+
+    //map related
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'style_1.css') }}" />
+    <script type="module" src="{{ url_for('static', filename = 'index_1.js') }}"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1.0', { packages: ['corechart'] })
+    </script>
+    <script>
+      var SCRIPT_ROOT = "{{ url_for('index', _external=false) }}"
+    </script>
+</head>
+<body data-scroll-time="1,25">
+    <div class="page-wrapper background-color-white">
+        <nav id="navbar" data-w-id="08c5cf72-62a7-069a-a899-ce439a61584a" class="navbar">
+            <div class="padding-global">
+                <div class="nav-container">
+                    <div class="nav-left" style="margin-top: 0px; margin-left: 0px">
+                        <span class="material-symbols-outlined" style="font-size: 100px;">pedal_bike</span>
+                        <div style="display: inline-block; position:relative; top:-20px;">
+                            <h2 id="w-node-_777bc789-3f9c-a49e-e425-055afdee9e9b-046587db">Dublin Bikes</h2>
+                        </div>
+                    </div>
+                    <div class="nav-right"><a href="#contact" class="button w-button" id="contact-btn">contact</a>
+                        <div fs-scrolldisable-element="toggle" data-w-id="e214dc3d-f3c7-88e0-553d-d4b9a749fa0e"
+                            class="nav-button-hamburger">
+                            <div class="hamburger-line-top"></div>
+                            <div class="hamburger-line-middle"></div>
+                            <div class="hamburger-line-bottom"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div style="display:none;opacity:0" class="navmenu">
+            <div class="padding-global">
+                <div class="megamenu-innerwrapper">
+                    <div class="container-large">
+                        <div class="nav-links">
+                            <a href="#weatherInfo"
+                               data-w-id="a2f8131a-8fc6-120d-ec2b-5920a9217b91"
+                               class="navlink w-inline-block">
+                                <div class="heading-style-h1 text-color-white">services</div>
+                            </a>
+                            <a href="#about" data-w-id="de80a54b-8fba-8575-0a66-61c70f50cc55"
+                               class="navlink w-inline-block">
+                                <div class="heading-style-h1 text-color-white">about</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="global-styles w-embed">
+            <style>
+                /* Snippet makes the cursor parent not clickable */
+                .cursor-wrapper {
+                    user-select: none;
+                    pointer-events: none;
+                }
+
+
+                /* Make text look crisper and more legible in all browsers */
+                body {
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                    font-smoothing: antialiased;
+                    text-rendering: optimizeLegibility;
+                }
+
+                /* Focus state style for keyboard navigation for the focusable elements */
+                *[tabindex]:focus-visible,
+                input[type="file"]:focus-visible {
+                    outline: 0.125rem solid #4d65ff;
+                    outline-offset: 0.125rem;
+                }
+
+                /* Get rid of top margin on first element in any rich text element */
+                .w-richtext> :not(div):first-child,
+                .w-richtext>div:first-child> :first-child {
+                    margin-top: 0 !important;
+                }
+
+                /* Get rid of bottom margin on last element in any rich text element */
+                .w-richtext>:last-child,
+                .w-richtext ol li:last-child,
+                .w-richtext ul li:last-child {
+                    margin-bottom: 0 !important;
+                }
+
+                /* Prevent all click and hover interaction with an element */
+                .pointer-events-off {
+                    pointer-events: none;
+                }
+
+                /* Enables all click and hover interaction with an element */
+                .pointer-events-on {
+                    pointer-events: auto;
+                }
+
+                /* Create a class of .div-square which maintains a 1:1 dimension of a div */
+                .div-square::after {
+                    content: "";
+                    display: block;
+                    padding-bottom: 100%;
+                }
+
+                /* Make sure containers never lose their center alignment */
+                .container-medium,
+                .container-small,
+                .container-large {
+                    margin-right: auto !important;
+                    margin-left: auto !important;
+                }
+
+                /*
+Make the following elements inherit typography styles from the parent and not have hardcoded values.
+Important: You will not be able to style for example "All Links" in Designer with this CSS applied.
+Uncomment this CSS to use it in the project. Leave this message for future hand-off.
+*/
+                /*
+a,
+.w-input,
+.w-select,
+.w-tab-link,
+.w-nav-link,
+.w-dropdown-btn,
+.w-dropdown-toggle,
+.w-dropdown-link {
+  color: inherit;
+  text-decoration: inherit;
+  font-size: inherit;
+}
+*/
+
+                /* Apply "..." after 3 lines of text */
+                .text-style-3lines {
+                    display: -webkit-box;
+                    overflow: hidden;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                }
+
+                /* Apply "..." after 2 lines of text */
+                .text-style-2lines {
+                    display: -webkit-box;
+                    overflow: hidden;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                }
+
+                /* Adds inline flex display */
+                .display-inlineflex {
+                    display: inline-flex;
+                }
+
+                /* These classes are never overwritten */
+                .hide {
+                    display: none !important;
+                }
+
+                @media screen and (max-width: 991px),
+                @media screen and (max-width: 767px),
+                @media screen and (max-width: 479px) {
+
+                    .hide,
+                    .hide-tablet {
+                        display: none !important;
+                    }
+                }
+{
+                @media screen and (max-width: 767px) .hide-mobile-landscape {
+                    display: none !important;
+                }
+                }
+{
+                @media screen and (max-width: 479px) .hide-mobile {
+                    display: none !important;
+                }
+                }
+
+                .margin-0 {
+                    margin: 0rem !important;
+                }
+
+                .padding-0 {
+                    padding: 0rem !important;
+                }
+
+                .spacing-clean {
+                    padding: 0rem !important;
+                    margin: 0rem !important;
+                }
+
+                .margin-top {
+                    margin-right: 0rem !important;
+                    margin-bottom: 0rem !important;
+                    margin-left: 0rem !important;
+                }
+
+                .padding-top {
+                    padding-right: 0rem !important;
+                    padding-bottom: 0rem !important;
+                    padding-left: 0rem !important;
+                }
+
+                .margin-right {
+                    margin-top: 0rem !important;
+                    margin-bottom: 0rem !important;
+                    margin-left: 0rem !important;
+                }
+
+                .padding-right {
+                    padding-top: 0rem !important;
+                    padding-bottom: 0rem !important;
+                    padding-left: 0rem !important;
+                }
+
+                .margin-bottom {
+                    margin-top: 0rem !important;
+                    margin-right: 0rem !important;
+                    margin-left: 0rem !important;
+                }
+
+                .padding-bottom {
+                    padding-top: 0rem !important;
+                    padding-right: 0rem !important;
+                    padding-left: 0rem !important;
+                }
+
+                .margin-left {
+                    margin-top: 0rem !important;
+                    margin-right: 0rem !important;
+                    margin-bottom: 0rem !important;
+                }
+
+                .padding-left {
+                    padding-top: 0rem !important;
+                    padding-right: 0rem !important;
+                    padding-bottom: 0rem !important;
+                }
+
+                .margin-horizontal {
+                    margin-top: 0rem !important;
+                    margin-bottom: 0rem !important;
+                }
+
+                .padding-horizontal {
+                    padding-top: 0rem !important;
+                    padding-bottom: 0rem !important;
+                }
+
+                .margin-vertical {
+                    margin-right: 0rem !important;
+                    margin-left: 0rem !important;
+                }
+
+                .padding-vertical {
+                    padding-right: 0rem !important;
+                    padding-left: 0rem !important;
+                }
+            </style>
+        </div>
+    </div>
+
+    <main class="main-wrapper">
+        <section id="top" data-w-id="bb99acb7-2f7e-90a6-9f18-033fca134124" class="section-home-header">
+                <div class="padding-global">
+                    <div class="container-large">
+                        <div class="padding-top padding-xxhuge">
+                            <div class="header-component">
+                                <div class="header-text-wrapper">
+                                    <div class="max-width-large">
+                                        <h1>BICYCLE GO!!!</h1>
+                                    </div>
+                                </div><a href="#weatherInfo"
+                                    data-w-id="68172cd3-060b-526d-69b3-feda1ba5c3ab"
+                                    class="button-down w-inline-block"><img
+                                        src="https://uploads-ssl.webflow.com/63fd5beab41ee7de056587d7/63fd5beab41ee751806587e9_arrow-down.svg"
+                                        loading="lazy"
+                                        alt="Icon of an arrow pointing down. By clicking it you scroll to the next section."
+                                        class="arrow-down-icon" />
+                                    <div data-w-id="384e564d-9d7d-3daf-48bf-9e4cf7ecd5ee" class="button-fill"><img
+                                            src="https://uploads-ssl.webflow.com/63fd5beab41ee7de056587d7/63fd5beab41ee751806587e9_arrow-down.svg"
+                                            loading="lazy"
+                                            alt="Icon of an arrow pointing down. By clicking it you scroll to the next section."
+                                            class="arrow-down-icon" /></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        <div class="bike-bg">
+            <img src="bike-bg.jpg" id="bike-bg-img">
+        </div>
+    </main>
+
+    <div class="blackBar">
+        <p class="leftText">Dublin Bikes</p>
+        <div class="weatherInfo" id="weatherInfo">
+            {% for row in weatherInfo %}
+                <div id="temperature">{{ row[0] }}°C</div>
+                <div id="icon"><img id="wicon" src="{{icon_src}}" alt="Weather icon"></div>
+                <div id="description">{{ row[1] }}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="heatmap-control">
+      <input type="checkbox" id="heatmap-toggle" />
+      <label for="heatmap-toggle">Show HeatMap</label>
+    </div>
+
+     <input id="search-box" class="custom-search-box" type="text" placeholder="Enter a location" />
+
+    <div id="map"></div>
+    <!--    The `defer` attribute causes the callback to execute after the full HTML
+document has been parsed.    -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA84zGIEaAVXzrTbhAbGUYf50z2bryTnLc&callback=initMap&v=weekly&map_id=60579be615b58573&libraries=visualization,places" defer></script>
+
+    <input id="search-box-number" class="custom-search-box2" type="text" placeholder="Search for a bike station by number" list="station-numbers" />
+    <datalist id="station-numbers"></datalist>
+
+    <div id="chart_div" style="width: 800px; height: 500px;"></div>
+    <div id="chart_div2" style="width: 1200px; height: 500px;"></div>
+
+    <a href="https://www.dublinbikes.ie/en/home" target="_blank" id="about"><img src="logo-contract.png"></a>
+
+    <footer class="footer" id="contact" style="position: relative; margin-top: 50px;">
+        <div class="footer-wrapper">
+            <div class="padding-global">
+                <div class="padding-vertical padding-xhuge" style="padding-top: 30px; padding-bottom: 30px">
+                    <h2 class="text-color-white" style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">About us</h2>
+                    <div class="container-large">
+                        <div class = "contact-info" style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                            <img src="head.png" width="100" height="100" style="border-radius: 50%;">
+                            <div class = "info-right" style="display: inline-block; margin-left: 20px">
+                                <p class="text-color-white">Name</p>
+                                <p>
+                                    <span class="material-symbols-outlined" style="color: rgba(255, 255, 255, 1); vertical-align: middle;">mail</span>
+                                    <a class="text-color-white" style="text-decoration: none" href="mailto:example@gmail.com">example@gmail.com</a>
+                                </p>>
+                            </div>
+                        </div>
+                        <div class = "contact-info" style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                            <img src="head.png" width="100" height="100" style="border-radius: 50%;">
+                            <div class = "info-right" style="display: inline-block; margin-left: 20px">
+                                <p class="text-color-white">Name</p>
+                                <p>
+                                    <span class="material-symbols-outlined" style="color: rgba(255, 255, 255, 1); vertical-align: middle;">mail</span>
+                                    <a class="text-color-white" style="text-decoration: none" href="mailto:example@gmail.com">example@gmail.com</a>
+                                </p>>
+                            </div>
+                        </div>
+                        <div class = "contact-info" style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                            <img src="head.png" width="100" height="100" style="border-radius: 50%;">
+                            <div class = "info-right" style="display: inline-block; margin-left: 20px">
+                                <p class="text-color-white">Name</p>
+                                <p>
+                                    <span class="material-symbols-outlined" style="color: rgba(255, 255, 255, 1); vertical-align: middle;">mail</span>
+                                    <a class="text-color-white" style="text-decoration: none" href="mailto:example@gmail.com">example@gmail.com</a>
+                                </p>>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=63fd5beab41ee7de056587d7"
+        type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"></script>
+    <script src="script.js"
+        type="text/javascript"></script>
+    <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]--><!-- [Attributes by Finsweet] Disable scrolling -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-scrolldisable@1/scrolldisable.js"></script>
+
+    <script>
+        // Click on the hamburger icon whenever you click on the greyed out part
+        $(".navlink").click(function () {
+            $(".nav-button-hamburger").click();
+        });
+
+    </script>
+</body>
+</html>

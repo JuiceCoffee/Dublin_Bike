@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <title>Add Map</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'style_1.css') }}" />
+    <script type="module" src="{{ url_for('static', filename = 'index_1.js') }}"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1.0', { packages: ['corechart'] })
+    </script>
+    <script>
+      var SCRIPT_ROOT = "{{ url_for('index', _external=false) }}"
+    </script>
+  </head>
+  <body>
+    <div id="heatmap-control">
+      <input type="checkbox" id="heatmap-toggle" />
+      <label for="heatmap-toggle">Show HeatMap</label>
+    </div>
+
+
+
+    <input id="search-box" class="custom-search-box" type="text" placeholder="Enter a location" />
+
+    <div id="map"></div>
+    <!--    The `defer` attribute causes the callback to execute after the full HTML
+document has been parsed.    -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA84zGIEaAVXzrTbhAbGUYf50z2bryTnLc&callback=initMap&v=weekly&map_id=60579be615b58573&libraries=visualization,places" defer></script>
+
+    <input id="search-box-number" class="custom-search-box2" type="text" placeholder="Search for a bike station by number" list="station-numbers" />
+    <datalist id="station-numbers"></datalist>
+
+    <div id="chart_div" style="width: 800px; height: 500px;"></div>
+    <div id="chart_div2" style="width: 1200px; height: 500px;"></div>
+  </body>
+</html>
