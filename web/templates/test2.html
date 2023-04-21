@@ -5,6 +5,7 @@
 
 <head>
     <meta charset="utf-8" />
+    <link rel="icon" href="hover_marker.png" type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <style>
         .nav-links {
@@ -22,7 +23,7 @@
         }
         #bike-bg-img {
             margin-top: 50px;
-            margin-bottom: 50px;
+            margin-bottom: 22px;
             width: 80%
         }
 
@@ -33,17 +34,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 50px;
-        }
-
-        .leftText {
-            color: white;
-            margin-right: auto;
-            margin-left: 10px;
+            height: 100px;
         }
 
         .weatherInfo {
-            left:-100px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -53,16 +47,39 @@
         }
 
         #temperature, #description {
+            margin: 10px;
+            font-size: 150%;
             color: white;
             margin: 0 10px;
         }
 
+        #wicon{
+            margin: 20px;
+            transform: scale(2);
+        }
+
+
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         #about img {
+            width: 400px;
             position: relative;
             left: 50%;
             transform: translateX(-50%);
-            margin-top: 50px;
-            margin-bottom: 50px;
+            margin-top: 80px;
+            margin-bottom: -40px;
+        }
+        #glink img{
+            width: 400px;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 0px;
+            margin-bottom: 20px;
         }
 
     </style>
@@ -122,6 +139,25 @@
     <script>
       var SCRIPT_ROOT = "{{ url_for('index', _external=false) }}"
     </script>
+
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+      function formatDate(date) {
+        let year = date.getFullYear();
+        let month = (date.getMonth() + 1).toString().padStart(2, '0');
+        let day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+
+      let today = new Date();
+      let maxDate = new Date(today);
+      maxDate.setDate(maxDate.getDate() + 5);
+
+      let minDateFormatted = formatDate(today);
+      let maxDateFormatted = formatDate(maxDate);
+    </script>
+
 </head>
 <body data-scroll-time="1,25">
     <div class="page-wrapper background-color-white">
@@ -131,7 +167,7 @@
                     <div class="nav-left" style="margin-top: 0px; margin-left: 0px">
                         <span class="material-symbols-outlined" style="font-size: 100px;">pedal_bike</span>
                         <div style="display: inline-block; position:relative; top:-20px;">
-                            <h2 id="w-node-_777bc789-3f9c-a49e-e425-055afdee9e9b-046587db">Dublin Bikes</h2>
+                            <h2 id="w-node-_777bc789-3f9c-a49e-e425-055afdee9e9b-046587db" style="font-size: 24px;">Your Go-To Website for Bike Services in Dublin</h2>
                         </div>
                     </div>
                     <div class="nav-right"><a href="#contact" class="button w-button" id="contact-btn">contact</a>
@@ -407,10 +443,19 @@ a,
         <div class="bike-bg">
             <img src="bike-bg.jpg" id="bike-bg-img">
         </div>
+        <div class="serviceIntro">
+  <div class="textWrapper">
+    <p style="font-size: 15px; width: 60%; margin-bottom: 20px">Cycling is a very common form of transportation in Dublin, which not only contributes to lessening traffic congestion but also lowers carbon emissions and enhances the quality of life for city dwellers. The Dublin City Council is dedicated to creating a bicycle-friendly infrastructure, including more bike lanes and services for renting and sharing bicycles, including Dublin Bikes.</p>
+
+<br style="line-height: 24px;"><p style="font-size: 15px; width: 60%; margin-bottom: 20px"> The purpose of the service offered by our website is to enhance the user experience of renting a public bicycle, contribute significantly to the ecological health and integrity of Berlin's public bicycle fleet, and offer technical assistance for Dublin's green mobility initiative.</p>
+  </div>
+  <img src="serviceImg.jpg" id="service-img">
+</div>
+
+
     </main>
 
     <div class="blackBar">
-        <p class="leftText">Dublin Bikes</p>
         <div class="weatherInfo" id="weatherInfo">
             {% for row in weatherInfo %}
                 <div id="temperature">{{ row[0] }}°C</div>
@@ -421,58 +466,143 @@ a,
     </div>
 
     <div id="heatmap-control">
-      <input type="checkbox" id="heatmap-toggle" />
+      <input type="checkbox" id="heatmap-toggle"/>
       <label for="heatmap-toggle">Show HeatMap</label>
     </div>
 
      <input id="search-box" class="custom-search-box" type="text" placeholder="Enter a location" />
 
-    <div id="map"></div>
+    <div id="map" style="width: 80%; margin: 0 auto; text-align: center;"></div>
     <!--    The `defer` attribute causes the callback to execute after the full HTML
 document has been parsed.    -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA84zGIEaAVXzrTbhAbGUYf50z2bryTnLc&callback=initMap&v=weekly&map_id=60579be615b58573&libraries=visualization,places" defer></script>
 
-    <input id="search-box-number" class="custom-search-box2" type="text" placeholder="Search for a bike station by number" list="station-numbers" />
+    <input id="search-box-number" class="custom-search-box2" type="text" placeholder="Search for a bike station" list="station-numbers" />
     <datalist id="station-numbers"></datalist>
+    <div class="chart-container" style="width: 80%; margin: 0 auto; text-align: center;">
+        <div id="chart_div" style="width: 800px; height: 500px;"></div>
+        <div id="chart_div2" style="width: 1200px; height: 500px;"></div>
+    </div>
 
-    <div id="chart_div" style="width: 800px; height: 500px;"></div>
-    <div id="chart_div2" style="width: 1200px; height: 500px;"></div>
+    <div id="Predict">
+        <h2 style="font-size: 40px; margin: 0 auto; text-align: center; margin-top: 40px; margin-bottom: 20px"><strong>Predict Bikes</strong></h2>
+        <p style="font-size: 15px; width: 60%; display: block; margin-left: auto; margin-right: auto; margin-bottom: 20px">We have the best industry-leading accuracy record of over 99.3% when estimating the number of bicycles at a certain bicycle station over the next five days! In order to link real-time meteorological data (humidity, temperature, light sensitivity, and other influencing factors even consider three decimal places) and create a comprehensive closure prediction chain, we analyze massive multi-dimensional data, use deep learning to create a unique calculation model, and finally perform the analysis.</p>
+    <form style="margin: 0 auto; text-align: center;">
+      <label for="station_id">Station ID:</label>
+      <input type="text" id="station_id" name="station_id"><br><br>
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date"><br><br>
+      <input type="button" value="Submit" onclick="predictBikesAndStands()" style="background-color: black; color: white; font-weight: bold; font-size: 20px; padding: 8px 15px; border-radius: 4px;">
 
+
+    </form>
+        <div id="chart" style="width: 80%; margin: 0 auto; text-align: center;"></div>
+
+
+    <script>
+      document.getElementById("date").setAttribute("min", minDateFormatted);
+      document.getElementById("date").setAttribute("max", maxDateFormatted);
+
+      function predictBikesAndStands() {
+        const stationId = document.getElementById("station_id").value;
+        const date = document.getElementById("date").value;
+        const url = `/predict_bikes_and_stands?station_id=${stationId}&date=${date}`;
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            const times = Object.keys(data.bikes);
+            const bikes = Object.values(data.bikes);
+            const stands = Object.values(data.stands);
+            const bikeTrace = {
+              x: times,
+              y: bikes,
+              name: 'Available bikes',
+              mode: 'lines+markers',
+              line: {
+                color: 'rgb(102, 102, 255)',
+                width: 2
+              }
+            };
+            const standTrace = {
+              x: times,
+              y: stands,
+              name: 'Available stands',
+              mode: 'lines+markers',
+              line: {
+                color: 'rgb(255, 102, 102)',
+                width: 2
+              }
+            };
+            const layout = {
+              title: `Bike and stand availability for station ${stationId} on ${date}`,
+              xaxis: {
+                title: 'Time',
+                tickangle: -45
+              },
+              yaxis: {
+                title: 'Count'
+              },
+              margin: {
+                l: 50,
+                r: 50,
+                b: 50,
+                t: 50,
+                pad: 4
+              },
+              legend: {
+                x: 0.1,
+                y: 1
+              }
+            };
+            Plotly.newPlot('chart', [bikeTrace, standTrace], layout);
+          })
+          .catch(error => console.error(error));
+      }
+    </script>
+    </div>
+    <div class="links-container" style="margin-top: 80px;">
+        <h2 style="font-size: 40px"><strong>Partner Site</strong></h2>
     <a href="https://www.dublinbikes.ie/en/home" target="_blank" id="about"><img src="logo-contract.png"></a>
+    <a href="https://www.google.com/maps/place/Dublin,+Ireland" target="_blank" id="glink">
+        <img src="gmPic.png" alt="Go to Dublin on Google Maps" />
+    </a>
+    </div>
 
     <footer class="footer" id="contact" style="position: relative; margin-top: 50px;">
         <div class="footer-wrapper">
             <div class="padding-global">
                 <div class="padding-vertical padding-xhuge" style="padding-top: 30px; padding-bottom: 30px">
-                    <h2 class="text-color-white" style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">About us</h2>
+                    <h2 class="text-color-white" style="text-align: center; font-size: 30px; margin-bottom: 20px;">Want to support Dublin's urban cycling green transportation?</h2>
+                    <h2 class="text-color-white" style="text-align: center; font-size: 30px; margin-bottom: 50px;">Hit us up.</h2>
+
                     <div class="container-large">
                         <div class = "contact-info" style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
-                            <img src="head.png" width="100" height="100" style="border-radius: 50%;">
+                            <img src="xing.jpg" width="100" height="100" style="border-radius: 50%;">
                             <div class = "info-right" style="display: inline-block; margin-left: 20px">
-                                <p class="text-color-white">Name</p>
+                                <p class="text-color-white">XingYeahhh</p>
                                 <p>
                                     <span class="material-symbols-outlined" style="color: rgba(255, 255, 255, 1); vertical-align: middle;">mail</span>
-                                    <a class="text-color-white" style="text-decoration: none" href="mailto:example@gmail.com">example@gmail.com</a>
+                                    <a class="text-color-white" style="text-decoration: none" href="mailto:example@gmail.com">xingye_1st@outlook.com</a>
                                 </p>>
                             </div>
                         </div>
                         <div class = "contact-info" style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
-                            <img src="head.png" width="100" height="100" style="border-radius: 50%;">
+                            <img src="for.jpg" width="100" height="100" style="border-radius: 50%;">
                             <div class = "info-right" style="display: inline-block; margin-left: 20px">
-                                <p class="text-color-white">Name</p>
+                                <p class="text-color-white">OghenemaluFortune</p>
                                 <p>
                                     <span class="material-symbols-outlined" style="color: rgba(255, 255, 255, 1); vertical-align: middle;">mail</span>
-                                    <a class="text-color-white" style="text-decoration: none" href="mailto:example@gmail.com">example@gmail.com</a>
+                                    <a class="text-color-white" style="text-decoration: none" href="mailto:example@gmail.com">Fighoiye@gmail.com&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
                                 </p>>
                             </div>
                         </div>
                         <div class = "contact-info" style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
-                            <img src="head.png" width="100" height="100" style="border-radius: 50%;">
+                            <img src="niu.jpg" width="100" height="100" style="border-radius: 50%;">
                             <div class = "info-right" style="display: inline-block; margin-left: 20px">
-                                <p class="text-color-white">Name</p>
+                                <p class="text-color-white">ZhaozhongNiu</p>
                                 <p>
                                     <span class="material-symbols-outlined" style="color: rgba(255, 255, 255, 1); vertical-align: middle;">mail</span>
-                                    <a class="text-color-white" style="text-decoration: none" href="mailto:example@gmail.com">example@gmail.com</a>
+                                    <a class="text-color-white" style="text-decoration: none" href="mailto:example@gmail.com">niuzhaozhong@gmail.com</a>
                                 </p>>
                             </div>
                         </div>

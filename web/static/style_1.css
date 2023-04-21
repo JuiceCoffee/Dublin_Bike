@@ -28,6 +28,15 @@ body {
     color: white;
   }
 
+  #heatmap-control {
+    display: flex;
+    align-items: center;
+  }
+
+#heatmap-toggle {
+  margin-right: 10px; /* 添加一些右边距，使打勾框与文字之间有一定距离 */
+}
+
   .custom-search-box {
     width: 300px; /* 调整搜索框宽度 */
     height: 40px; /* 调整搜索框高度 */
@@ -60,5 +69,48 @@ body {
     border-color: #66afe9; /* 调整边框颜色 */
   }
 
+  .chart-container {
+    display: none;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+  /* .chart-container > div {
+    flex: 1;
+  } */
+  #chart_div {
+    width: 800px;
+    height: 500px;
+  }
+  #chart_div2 {
+    width: 1200px;
+    height: 500px;
+  }
 
+.serviceIntro {
+  margin: 0 auto; /* 添加自动边距，使整体居中 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  margin-bottom: 22px;
+}
+
+.textWrapper {
+  margin-right: 20px;
+  width: 60%; /* 设置文字容器宽度 */
+  padding-left: 120px;
+}
+
+#service-img {
+  width: 450px;
+}
+
+
+
+
+
+
+
+  
+  
   

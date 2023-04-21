@@ -1,3 +1,0 @@
-*.pkl filter=lfs diff=lfs merge=lfs -text
-available_bike_stands.pkl filter=lfs diff=lfs merge=lfs -text
-available_bikes.pkl filter=lfs diff=lfs merge=lfs -text

@@ -230,20 +230,23 @@ function addMarkers(stations) {
         }
     });
 
-    const contentString = '<div>' +
-      '<h3 id="firstHeading" class="firstHeading">' + station.number + "." + station.name + '</h3>' +
-      '<p><strong>Station Address:   </strong>' + station.address + '</p>' +
-      '<p><strong>Original Bike Stands:   </strong>' + station.bike_stands + '</p>' +
-      '<p><strong>Latest Available Bike Number:   </strong>' + station.available_bikes + '</p>' +
-      '<p><strong>Latest Available Bike stand Number:   </strong>' + station.available_bike_stands + '</p>' +
-      '<p><strong>Latest update time:   </strong>' +  new Date(station.last_update ).toLocaleString()  + '</p>' +
-      '<p><strong>Business Status:   </strong>' + station.status + '</p>' +
-      '<p style="color: orange;"><strong>View the Number of Bikes available historically</strong></p>' +
-      '<input id="inputDate" type="text" placeholder="Enter date (YYYY-MM-DD)"/>' + // 添加输入框
-      '<button id="btnLoadData" style="background-color: yellowgreen; color: white; border: none; padding: 5px 12px; font-size: 14px;">Search!</button>' + // 添加带有颜色设置、无边框且更大的按钮
-      // 添加带有颜色设置且无边框的按钮
-      // 添加带有颜色设置的按钮
-      '</div>';
+    const contentString = '<style>' +
+  'h3 { font-size: 18px; text-align: left; margin-bottom: 10px; }' +
+  'p, strong { font-size: 14px; text-align: left; line-height: 1.3; }' +
+  'input { display: inline-block; }' + // 使输入框左对齐
+  '</style>' +
+  '<div>' +
+  '<h3 id="firstHeading" class="firstHeading">' + station.number + "." + station.name + '</h3>' +
+  '<p><strong>Station Address:   </strong>' + station.address + '</p>' +
+  '<p><strong>Original Bike Stands:   </strong>' + station.bike_stands + '</p>' +
+  '<p><strong>Latest Available Bike Number:   </strong>' + station.available_bikes + '</p>' +
+  '<p><strong>Latest Available Bike stand Number:   </strong>' + station.available_bike_stands + '</p>' +
+  '<p><strong>Latest update time:   </strong>' +  new Date(station.last_update ).toLocaleString()  + '</p>' +
+  '<p><strong>Business Status:   </strong>' + station.status + '</p>' +
+  '<p style="color: orange;"><strong>View the Number of Bikes available historically</strong></p>' +
+  '<input id="inputDate" type="text" placeholder="Enter date (YYYY-MM-DD)"/>' +
+  '<button id="btnLoadData" style="background-color: yellowgreen; color: white; border: none; padding: 5px 12px; font-size: 14px;">Search!</button>' +
+  '</div>';
     //const contentString =node;
 
     const infowindow = new google.maps.InfoWindow({
@@ -251,6 +254,8 @@ function addMarkers(stations) {
     });
 
     marker.addListener("click", () => {
+      // 显示图表容器
+  document.querySelector('.chart-container').style.display = 'flex';
       if (currentInfoWindow) {
         currentInfoWindow.close(); // 关闭当前的信息窗口
       }
@@ -264,7 +269,16 @@ function addMarkers(stations) {
       });
       currentInfoWindow = infowindow;
 
+     
+       
+
       google.maps.event.addListener(infowindow, 'domready', () => {
+        
+        google.maps.event.addListener(infowindow, 'closeclick', () => {
+          // 隐藏图表容器
+          document.querySelector('.chart-container').style.display = 'none';
+        });
+
         document.getElementById("btnLoadData").addEventListener("click", () => {
           const inputDate = document.getElementById("inputDate").value;
           if (inputDate) {
@@ -285,7 +299,7 @@ function addMarkers(stations) {
                 });
 
                 const options = {
-                  title: 'Available Bikes per Hour on ' + inputDate,
+                  title: 'This Station Available Bikes per Hour on ' + inputDate,
                   legend: 'none',
                   colors: ['#32CD32'],
                   hAxis: {
@@ -311,11 +325,8 @@ function addMarkers(stations) {
             alert("Please enter a valid date.");
           }
         });
+        
       });
-
-
-
-
 
 
 
@@ -332,7 +343,7 @@ function addMarkers(stations) {
             dataTable.addRow([new Date(row[0]), row[1]]);
           });
           const options = {
-            title: 'Average Bikes Available Per Day',
+            title: 'This Station Average Bikes Available Per Day',
             legend: 'none',
             colors: ['#FFA500'], // 添加此行以设置橙黄色
             hAxis: {
@@ -453,6 +464,11 @@ function populateSearchBoxByNumber(stations) {
 //     map.setOptions({ mapId: "60579be615b58573" });
 //   }
 // }
+
+
+
+
+
 
 var map = null;
 window.initMap = initMap;

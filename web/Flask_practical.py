@@ -19,6 +19,19 @@ from datetime import datetime, timedelta
 import pymysql
 pymysql.install_as_MySQLdb()
 
+
+import datetime
+import json
+import pickle
+import requests
+
+from flask import Flask, render_template, request
+
+# app = Flask(__name__)
+
+bike_model = pickle.load(open('available_bikes.pkl', 'rb'))
+stand_model = pickle.load(open('available_bike_stands.pkl','rb'))
+
 #from jinjia2 import Template
 #from flask_sqlalchemy import SQLAlchemy
 #from flask_mysqldb import MySQL
@@ -27,6 +40,71 @@ pymysql.install_as_MySQLdb()
 
 app=Flask(__name__, static_url_path='')
 #app.config.from_object('config')
+
+# /ML for bike prediction using weather forecast
+
+@app.route('/predict_bikes_and_stands')
+def predict_bikes_and_stand():
+    print('predict_bikes called')
+    station_id = request.args.get('station_id')
+    date_str = request.args.get('date')
+
+    if date_str:
+        try:
+            date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
+        except ValueError:
+            return render_template('error.html', message='Invalid date format')
+    else:
+        date = datetime.datetime.now()
+
+    # Make sure the requested date is within the next 5 days
+    if (date - datetime.datetime.now()).days > 4:
+        return render_template('error.html', message='Requested date is too far in the future')
+
+    url = "https://api.openweathermap.org/data/2.5/forecast?q=Dublin,IE&units=metric&appid=925fb7d8a523499058239184ca7054d9"
+    weather = requests.get(url)
+    if weather.status_code != 200:
+        return render_template('error.html', message='Failed to retrieve weather data')
+    data = weather.json()
+
+    results = {}
+    bike_results = {}
+    stand_results = {}
+
+    day_data = [data_point for data_point in data['list'] if data_point['dt_txt'].startswith(date.strftime('%Y-%m-%d'))]
+
+    for data_point in day_data:
+        temperature = data_point['main']['temp']
+        pressure = data_point['main']['pressure']
+        humidity = data_point['main']['humidity']
+        wind_speed = data_point['wind']['speed']
+
+        date_time = datetime.datetime.strptime(data_point['dt_txt'], '%Y-%m-%d %H:%M:%S')
+        hour = date_time.hour
+
+        predict_dict = {'number': station_id,
+                        'temperature': temperature,
+                        'pressure': pressure,
+                        'humidity': humidity,
+                        'wind_speed': wind_speed,
+                        'hour': hour,
+                        'dayofweek_x': date_time.weekday(),
+                        'month_x': date_time.month}
+
+        predict_array = pd.DataFrame(predict_dict, index=[0])
+        bikes = bike_model.predict(predict_array)[0]
+        stands = stand_model.predict(predict_array)[0]
+
+        bike_results[date_time.strftime('%Y-%m-%d %H:%M:%S')] = bikes
+        stand_results[date_time.strftime('%Y-%m-%d %H:%M:%S')] = stands
+
+    results['bikes'] = bike_results
+    results['stands'] = stand_results
+
+    return jsonify(results)
+
+
+
 
 url = "dbikes.cznzccwi0urk.us-east-1.rds.amazonaws.com"
 user = "admin"
@@ -48,21 +126,35 @@ def connect_to_database():
 def get_db(): 
     db = getattr(g, '_database', None) 
     if db is None: 
-        db = g._database = connect_to_database() 
+        engine = connect_to_database()
+        db = g._database = engine.connect()
     return db
 
-def get_db_raw(): 
-    db2 = getattr(g, '_database', None) 
-    if db2 is None: 
-        db2 = g._database = connect_to_database().raw_connection() 
+def get_db_raw():
+    db2 = getattr(g, '_database_raw', None)
+    if db2 is None:
+        engine = connect_to_database()
+        db2 = g._database_raw = engine.raw_connection()
     return db2
 
-@app.teardown_appcontext 
-def close_connection(exception): 
-    db = getattr(g, '_database', None) 
-    if db is not None: 
-        db.close() 
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
+    db2 = getattr(g, '_database_raw', None)
+    if db2 is not None:
+        db2.close()
+
+
+# @app.teardown_appcontext
+# def close_connection(exception):
+#     db = getattr(g, '_database', None)
+#     if db is not None:
+#         db.close()
  
+
 
 
 @app.route("/stations")
@@ -223,6 +315,8 @@ def index():
 # @app.route('/mapsample')
 # def index():
 #       return render_template('Page-9.html')
+
+
 
 #這句話要放在最後才能運作整個程序
 if __name__=="__main__":
